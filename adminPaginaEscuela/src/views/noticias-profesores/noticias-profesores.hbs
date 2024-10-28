@@ -1,0 +1,101 @@
+<style>
+  body{
+    background-color: whitesmoke;
+  }
+  h3{
+    font-size: 1.5rem;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  a{
+    text-decoration: none;
+    font-size: 1.2rem;
+    color: orangered;
+    font-weight: 600;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  .container{
+    width: 100vw;
+    height: 85vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding-top: 40px;
+  }
+  .container .arriba{
+    padding-bottom: 20px;
+  }
+  
+  .cards-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    width: 85%;
+    height: 250px;
+  }
+  .cards-container .card{
+    background-color: rgb(1, 1, 202);
+    width: 22%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    border-radius: 40px;
+  }
+  .cards-container .card .texto{
+    width: 100%;
+    color: white;
+    height: 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  .cards-container .card .texto .titulo{
+    font-size: 1.4rem;
+    font-weight: 700;
+  }
+  .cards-container .card .texto .desc{
+    font-size: 1.1rem;
+    font-weight: 500;
+  }
+  .cards-container .card .texto .carrera{
+        font-size: 0.9rem;
+        font-weight: 700;
+  }
+</style>
+<div class="container">
+    <div class="arriba">
+        <h3>Gestión de noticias para profesores</h3>
+        <a href="/add-noticia-profesor">Agregar noticia para profesores</a>
+    </div>
+  <div class="cards-container">
+  {{#if noticiasProfes}}
+    {{#each noticiasProfes}}
+      <div class="card">
+        <div class="texto">
+          <p>{{nombreNoticiaProfe}}</p>
+          <p>{{descripcionNoticiaProfe}}</p>
+        </div>
+
+        <div class="card-footer">
+          <a href="/edit-noticia-profe/{{idNoticiaProfe}}">Editar</a>
+          <a href="/delete-noticia-profe/{{idNoticiaProfe}}">Borrar</a>
+        </div>
+      </div>
+
+    {{/each}}
+    {{else}}
+        <div>
+          <h3>Debes crear una noticia para profesores</h3>
+  
+          <p>Presiona este boton para que puedas registrar una noticia para profesores</p>
+          <a href="/add-noticia-profesor">Ir a crear</a>
+        </div>
+  {{/if}}
+</div>
+</div>
+
+

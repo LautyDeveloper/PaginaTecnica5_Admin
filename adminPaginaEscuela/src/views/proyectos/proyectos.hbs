@@ -1,0 +1,117 @@
+<style>
+  body{
+    background-color: whitesmoke;
+    overflow-x:  hidden;
+    overflow-y: auto;
+  }
+  h3{
+    font-size: 1.5rem;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  a{
+    text-decoration: none;
+    font-size: 1.2rem;
+    color: orangered;
+    font-weight: 600;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  .container{
+    width: 100vw;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding-top: 40px;
+  }
+  .container .arriba{
+    padding-bottom: 20px;
+  }
+  
+  .cards-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    width: 95%;
+    height: auto;
+    flex-wrap: wrap;
+    padding-bottom: 20px;
+    gap: 20px;
+  }
+  .cards-container .card{
+    background-color: rgb(1, 1, 202);
+    width: 30%;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    border-radius: 40px;
+  }
+  .cards-container .card .texto{
+    width: 100%;
+    color: white;
+    height: 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  .cards-container .card .texto .titulo{
+    font-size: 2rem;
+    font-weight: 700;
+  }
+  .cards-container .card .texto .desc{
+    font-size: 1.1rem;
+    font-weight: 500;
+    padding: 10px;
+  }
+  .cards-container .card .texto .carrera{
+        font-size: 1.2rem;
+        font-weight: 700;
+  }
+  .cards-container .card .texto .cursos{
+        font-size: 1.1rem;
+        font-weight: 700;
+  }
+  .card-footer {
+    display: flex;
+    flex-direction: column;
+  }
+</style>
+
+<div class="container">
+  <div class="arriba">
+    <h3>Gestión de proyectos</h3>
+    <a href="/add-proyecto">Agregar proyecto</a>
+  </div>
+  <div class="cards-container">
+    {{#if proyectos}}
+      {{#each proyectos}}
+        <div class="card">
+          <div class="texto">
+            <p class="titulo">{{proyectoNombre}}</p>
+            <p class="desc">{{descripcionProyecto}}</p>
+            <p class="carrera">{{carrera}}</p>
+            <p class="cursos">{{cursos}}</p>
+          </div>
+          <div class="card-footer">
+            <a href="/edit-proyecto/{{idProyecto}}">Editar</a>
+            <a href="/delete-proyecto/{{idProyecto}}">Borrar</a>
+            {{#if archivo}}
+              <a href="/descargar-archivo/{{idProyecto}}" download>Descargar archivo</a>
+            {{/if}}
+
+          </div>
+        </div>
+      {{/each}}
+    {{else}}
+      <div>
+        <h3>Debes crear un proyecto</h3>
+        <p>Presiona este botón para que puedas registrar un proyecto</p>
+        <a href="/add-proyecto">Ir a crear</a>
+      </div>
+    {{/if}}
+  </div>
+</div>
