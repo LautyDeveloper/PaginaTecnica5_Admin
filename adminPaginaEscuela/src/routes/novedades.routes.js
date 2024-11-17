@@ -31,12 +31,13 @@ router.get("/novedades", async (req, res) => {
   }
 });
 
-router.get("/edit-novedad/:id", async (req, res) => {
+router.get("/edit-novedad/:idNovedad", async (req, res) => {
   try {
-    const { id } = req.params;
-    const [novedad] = await pool.query("SELECT * FROM novedades WHERE id = ?", [
-      id,
-    ]);
+    const { idNovedad } = req.params;
+    const [novedad] = await pool.query(
+      "SELECT * FROM novedades WHERE idNovedad = ?",
+      [idNovedad]
+    );
     const novedadEdit = novedad[0];
     res.render("novedades/edit-novedad", { novedad: novedadEdit });
   } catch (err) {
@@ -44,22 +45,25 @@ router.get("/edit-novedad/:id", async (req, res) => {
   }
 });
 
-router.post("/edit-novedad/:id", async (req, res) => {
+router.post("/edit-novedad/:idNovedad", async (req, res) => {
   try {
     const { novedad, descripcion, descripcionLarga } = req.body;
-    const { id } = req.params;
+    const { idNovedad } = req.params;
     const editNovedad = { novedad, descripcion, descripcionLarga };
-    await pool.query("UPDATE Novedades SET ? WHERE id = ?", [editNovedad, id]);
+    await pool.query("UPDATE Novedades SET ? WHERE idNovedad = ?", [
+      editNovedad,
+      idNovedad,
+    ]);
     res.redirect("/novedades");
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
 
-router.get("/delete-novedad/:id", async (req, res) => {
+router.get("/delete-novedad/:idNovedad", async (req, res) => {
   try {
-    const { id } = req.params;
-    await pool.query("DELETE FROM Novedades WHERE id = ?", [id]);
+    const { idNovedad } = req.params;
+    await pool.query("DELETE FROM Novedades WHERE idNovedad = ?", [idNovedad]);
     res.redirect("/novedades");
   } catch (err) {
     res.status(500).json({ message: err.message });
