@@ -6,6 +6,7 @@ import { fileURLToPath } from "url";
 import novedadesRoutes from "./routes/novedades.routes.js";
 import proyectosRoutes from "./routes/proyectos.routes.js";
 import noticiasProfesoresRoutes from "./routes/noticias-profesores.routes.js";
+import equipoDirectivo from "./routes/equipo-directivo.routes.js";
 
 //Inicializacion
 const app = express();
@@ -41,6 +42,7 @@ app.get("/", (req, res) => {
 app.use(novedadesRoutes);
 app.use(proyectosRoutes);
 app.use(noticiasProfesoresRoutes);
+app.use(equipoDirectivo);
 
 //Public files
 app.use(express.static(join(__dirname, "public")));

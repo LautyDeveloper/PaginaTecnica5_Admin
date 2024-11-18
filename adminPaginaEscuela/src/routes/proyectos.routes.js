@@ -42,7 +42,8 @@ router.get("/add-proyecto", (req, res) => {
 // Ruta para agregar un nuevo proyecto
 router.post("/add-proyecto", upload.single("archivoUrl"), async (req, res) => {
   try {
-    const { proyectoNombre, descripcionProyecto, carrera, cursos } = req.body;
+    const { proyectoNombre, descripcionProyecto, carrera, cursos, srcVideo } =
+      req.body;
     const archivo = req.file.buffer; // Datos binarios del archivo
     const nombreArchivo = req.file.originalname; // Nombre original del archivo
 
@@ -53,6 +54,7 @@ router.post("/add-proyecto", upload.single("archivoUrl"), async (req, res) => {
       cursos,
       archivo, // Guardamos el archivo en formato binario
       nombreArchivo, // Guardamos el nombre original del archivo
+      srcVideo,
     };
 
     await pool.query("INSERT INTO proyectos SET ?", [newProyecto]);
@@ -67,7 +69,8 @@ router.post(
   upload.single("archivoUrl"),
   async (req, res) => {
     try {
-      const { proyectoNombre, descripcionProyecto, carrera, cursos } = req.body;
+      const { proyectoNombre, descripcionProyecto, carrera, cursos, srcVideo } =
+        req.body;
       const { idProyecto } = req.params;
 
       const [proyectoActual] = await pool.query(
@@ -88,6 +91,7 @@ router.post(
         cursos,
         archivo,
         nombreArchivo,
+        srcVideo,
       };
 
       await pool.query("UPDATE proyectos SET ? WHERE idProyecto = ?", [

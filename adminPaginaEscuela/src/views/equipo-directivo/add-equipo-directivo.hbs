@@ -1,0 +1,86 @@
+
+<style>
+    .container{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 400px;
+        height: 400px;
+        background-color: rgb(0, 0, 79);
+        border-radius: 20px;
+    }
+    form{
+        width: 80%;
+        height: 80%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-around;
+    }
+    form button{
+        background-color: orangered;
+        width: 90%;
+        height: 30px;
+        border-radius: 20px;
+        border: none;
+        outline: none;
+        color: white;
+        font-size: 1.2rem;
+        font-weight: 700;
+    }
+
+    form div{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        width: 90%;
+    }
+    form div label{
+        color: orangered;
+        font-size: 1.2rem;
+        font-weight: 700;
+        font-family: Arial, Helvetica, sans-serif   ;
+    }
+
+    form div input, textarea{
+        width: 100%;
+        height: 30px;
+        border: none;
+        outline: none;
+        padding-left: 10px;
+        resize: none;
+        background-color: rgb(2, 31, 194);
+        color: white;
+        font-weight: 600;
+    }
+    form div input::placeholder, textarea::placeholder{
+        color: white;
+    }
+    
+    form div textarea{
+        height: 100px;
+    }
+
+
+
+</style>
+<div class="container">
+    <form action="/add-equipo-directivo" method="POST">
+    <div>
+        <label for="Nombre">Nombre del Directivo</label>
+    <input type="text" name="Nombre" id="Nombre" placeholder="Nombre del nuevo Directivo" autofocus required>
+    </div>
+    <div>
+        <label for="Apellido">Apellido del Directivo</label>
+    <input type="text" name="Apellido" id="Apellido" placeholder="Apellido del nuevo Directivo" required></input>
+    </div>
+    <div>
+        <label for="Cargo">Cargo del nuevo Directivo</label>
+    <textarea type="text" name="Cargo" id="Cargo" placeholder="Cargo del nuevo Directivo" required></textarea>
+    </div>
+    
+    <button> Crear Directivo </button>
+</form>
+</div>

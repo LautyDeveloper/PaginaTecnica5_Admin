@@ -117,6 +117,27 @@
       />
     </div>
 
+    <label for="srcVideo">Cursos</label>
+      <input
+        type="text"
+        name="cursos"
+        id="cursos"
+        value="{{proyecto.cursos}}"
+        required
+      />
+    </div>
+    
+    <div>
+      <label for="srcVideo">src Video</label>
+      <input
+        type="text"
+        name="srcVideo"
+        id="srcVideo"
+        value="{{proyecto.srcVideo}}"
+        required
+      />
+    </div>
+
     {{#if proyecto.archivoUrl}}
       <div>
         <p class="archivo">Archivo actual: <a href="/uploads/{{proyecto.archivoUrl}}" target="_blank">{{proyecto.archivoUrl}}</a></p>
