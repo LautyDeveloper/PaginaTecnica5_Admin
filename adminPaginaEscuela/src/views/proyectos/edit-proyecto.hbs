@@ -11,7 +11,7 @@
         justify-content: center;
         align-items: center;
         width: 500px;
-        height: 450px;
+        height: 700px;
         background-color: rgb(0, 0, 79);
         border-radius: 20px;
     }
@@ -49,7 +49,7 @@
         font-family: Arial, Helvetica, sans-serif   ;
     }
 
-    form div input, textarea{
+    form div input, textarea, select{
         width: 100%;
         height: 30px;
         border: none;
@@ -65,7 +65,7 @@
     }
     
     form div textarea{
-        height: 100px;
+        height: 160px;
     }
 
     .archivo{
@@ -77,9 +77,6 @@
       color: white;
     font-weight: 700;
     }
-
-
-
 
 </style>
 <div class="container">
@@ -108,16 +105,15 @@
 
     <div>
       <label for="carrera">Carrera</label>
-      <input
-        type="text"
-        name="carrera"
-        id="carrera"
-        value="{{proyecto.carrera}}"
-        required
-      />
+      <select name="carrera" id="carrera">
+        <option value="Programacion">Programacion</option>
+        <option value="Informatica">Informatica</option>
+        <option value="Maestro Mayor de Obras">Maestro Mayor de Obras</option>
+        <option value="Basico">Basico</option>
+      </select>
     </div>
-
-    <label for="srcVideo">Cursos</label>
+  <div>
+<label for="srcVideo">Cursos</label>
       <input
         type="text"
         name="cursos"
@@ -125,16 +121,18 @@
         value="{{proyecto.cursos}}"
         required
       />
-    </div>
+    
+  </div>
     
     <div>
-      <label for="srcVideo">src Video</label>
+      <label for="srcVideo">Video</label>
       <input
         type="text"
         name="srcVideo"
         id="srcVideo"
         value="{{proyecto.srcVideo}}"
         required
+        placeholder="Link del Video"
       />
     </div>
 

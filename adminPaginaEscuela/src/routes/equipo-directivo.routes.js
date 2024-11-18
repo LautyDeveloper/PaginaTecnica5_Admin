@@ -54,7 +54,7 @@ router.post("/edit-equipo-directivo/:idDirectivo", async (req, res) => {
       Apellido,
       Cargo,
     };
-    await pool.query("UPDATE equipodirectivo SET ? WHERE idNoticiaProfe = ?", [
+    await pool.query("UPDATE equipodirectivo SET ? WHERE idDirectivo = ?", [
       equipoDirectivoEdit,
       idDirectivo,
     ]);
@@ -67,10 +67,9 @@ router.post("/edit-equipo-directivo/:idDirectivo", async (req, res) => {
 router.get("/delete-equipo-directivo/:idDirectivo", async (req, res) => {
   try {
     const { idDirectivo } = req.params;
-    await pool.query(
-      "DELETE FROM noticiasProfesores WHERE idNoticiaProfe = ?",
-      [idDirectivo]
-    );
+    await pool.query("DELETE FROM equipodirectivo WHERE idDirectivo = ?", [
+      idDirectivo,
+    ]);
     res.redirect("/equipo-directivo");
   } catch (err) {
     res.status(500).json({ message: err.message });

@@ -43,7 +43,7 @@
         font-family: Arial, Helvetica, sans-serif   ;
     }
 
-    form div input, textarea{
+    form div input, textarea, select{
         width: 100%;
         height: 30px;
         border: none;
@@ -91,13 +91,12 @@
 
     <div>
       <label for="carrera">Carrera</label>
-      <input
-        type="text"
-        name="carrera"
-        id="carrera"
-        placeholder="Carrera del proyecto"
-        required
-      />
+      <select name="carrera" id="carrera">
+        <option value="Programacion">Programacion</option>
+        <option value="Informatica">Informatica</option>
+        <option value="Maestro Mayor de Obras">Maestro Mayor de Obras</option>
+        <option value="Basico">Basico</option>
+      </select>
     </div>
 
     <div>

@@ -1,5 +1,11 @@
 
 <style>
+    h3{
+        color: orangered;
+        font-size: 1.4rem;
+        font-weight: 700;
+        font-family: Arial, Helvetica, sans-serif   ;
+    }
     .container{
         display: flex;
         flex-direction: column;
@@ -58,28 +64,30 @@
     form div input::placeholder, select::placeholder{
         color: white;
     }
-
-
-
 </style>
+
+
+<h3 class="text-uppercase">EDITANDO UN DIRECTIVO</h3>
 <div class="container">
-    <form action="/add-equipo-directivo" method="POST">
+<form action="/edit-equipo-directivo/{{equipoDirectivo.idDirectivo}}" method="POST">
     <div>
         <label for="Nombre">Nombre del Directivo</label>
-    <input type="text" name="Nombre" id="Nombre" placeholder="Nombre del nuevo Directivo" autofocus required>
+        <input type="text" name="Nombre" id="Nombre" value="{{equipoDirectivo.Nombre}}" autofocus required>
     </div>
+
     <div>
         <label for="Apellido">Apellido del Directivo</label>
-    <input type="text" name="Apellido" id="Apellido" placeholder="Apellido del nuevo Directivo" required></input>
-    </div>
+        <input name="Apellido" id="Apellido" required>{{equipoDirectivo.Apellido}}</input>
+    </div>   
+
     <div>
         <label for="Cargo">Cargo del nuevo Directivo</label>
         <select name="Cargo" id="Cargo">
             <option value="Director/a">Director/a</option>
             <option value="Vicedirector/a">Vicedirector/a</option>
         </select>
-    </div>
-    
-    <button> Crear Directivo </button>
+    </div>                                    
+    <button> Actualizar </button>
+                        
 </form>
 </div>
