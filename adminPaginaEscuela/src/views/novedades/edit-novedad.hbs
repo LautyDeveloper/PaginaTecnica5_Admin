@@ -11,8 +11,8 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        width: 400px;
-        height: 400px;
+        width: 500px;
+        height: 620px;
         background-color: rgb(0, 0, 79);
         border-radius: 20px;
     }
@@ -64,9 +64,13 @@
     form div input::placeholder, textarea::placeholder{
         color: white;
     }
+
+    form div .corta{
+        height: 50px;
+    }
     
-    form div textarea{
-        height: 100px;
+    form div .larga{
+        height: 300px;
     }
 
 
@@ -83,13 +87,13 @@
     </div>
 
     <div>
-        <label for="descripcion">Descripcion</label>
-        <textarea name="descripcion" id="descripcion" required>{{novedad.descripcion}}</textarea>
+        <label for="descripcion">Descripcion Resumida</label>
+        <textarea name="descripcion" id="descripcion" class="corta" required>{{novedad.descripcion}}</textarea>
     </div>   
 
     <div>
         <label for="descripcionLarga">Descripcion</label>
-        <textarea name="descripcionLarga" id="descripcionLarga" required>{{novedad.descripcionLarga}}</textarea>
+        <textarea name="descripcionLarga" id="descripcionLarga" class="larga" required>{{novedad.descripcionLarga}}</textarea>
     </div>                                    
     <button> Actualizar </button>
                         
