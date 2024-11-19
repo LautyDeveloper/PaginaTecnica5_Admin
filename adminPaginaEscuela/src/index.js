@@ -7,6 +7,8 @@ import novedadesRoutes from "./routes/novedades.routes.js";
 import proyectosRoutes from "./routes/proyectos.routes.js";
 import noticiasProfesoresRoutes from "./routes/noticias-profesores.routes.js";
 import equipoDirectivo from "./routes/equipo-directivo.routes.js";
+import session from "express-session";
+import authRoutes from "./routes/auth.routes.js";
 
 //Inicializacion
 const app = express();
@@ -34,15 +36,38 @@ app.use(morgan("dev"));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-//Routes
-app.get("/", (req, res) => {
-  res.render("index");
+// Configurar sesión
+app.use(
+  session({
+    secret: "mi_secreto", // Cambia esto por algo más seguro
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+
+app.use((req, res, next) => {
+  if (!req.session.admin && req.path !== "/login" && req.path !== "/logout") {
+    return res.redirect("/login");
+  }
+  next();
 });
+
+app.use((req, res, next) => {
+  res.locals.username = req.session.username || null; // Si no hay sesión, será null
+  next();
+});
+
+//Routes
 
 app.use(novedadesRoutes);
 app.use(proyectosRoutes);
 app.use(noticiasProfesoresRoutes);
 app.use(equipoDirectivo);
+app.use(authRoutes);
+
+app.get("/", (req, res) => {
+  res.render("index", { username: req.session.username });
+});
 
 //Public files
 app.use(express.static(join(__dirname, "public")));
