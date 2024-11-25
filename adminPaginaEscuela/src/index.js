@@ -1,6 +1,7 @@
 import express from "express";
 import morgan from "morgan";
 import { engine } from "express-handlebars";
+import path from "path";
 import { join, dirname, extname } from "path";
 import { fileURLToPath } from "url";
 import novedadesRoutes from "./routes/novedades.routes.js";
@@ -15,6 +16,7 @@ const app = express();
 app.use(express.static("public"));
 app.use("/uploads", express.static("uploads"));
 const __dirname = dirname(fileURLToPath(import.meta.url));
+app.use(express.static(join(__dirname, "public")));
 
 //Configuraciones
 app.set("port", process.env.PORT || 3005);
@@ -70,10 +72,7 @@ app.get("/", (req, res) => {
 });
 
 //Public files
-app.use(express.static(join(__dirname, "public")));
-
 //Run Server
-
 app.listen(app.get("port"), () =>
   console.log("Server listening on the port", app.get("port"))
 );

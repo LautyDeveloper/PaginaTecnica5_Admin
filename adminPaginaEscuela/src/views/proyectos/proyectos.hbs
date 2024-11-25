@@ -1,84 +1,127 @@
 <style>
-  body{
-    background-color: whitesmoke;
-    overflow-x:  hidden;
-    overflow-y: auto;
-  }
-  h3{
-    font-size: 1.5rem;
-    font-family: Arial, Helvetica, sans-serif;
-  }
-  a{
-    text-decoration: none;
-    font-size: 1.2rem;
-    color: orangered;
-    font-weight: 600;
-    font-family: Arial, Helvetica, sans-serif;
-  }
-  .container{
-    width: 100vw;
-    height: auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    padding-top: 40px;
-  }
-  .container .arriba{
-    padding-bottom: 20px;
-  }
-  
-  .cards-container{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
-    width: 95%;
-    height: auto;
-    flex-wrap: wrap;
-    padding-bottom: 20px;
-    gap: 20px;
-  }
-  .cards-container .card{
-    background-color: rgb(0, 0, 125);
-    width: 50%;
-    height: 550px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
-    border-radius: 40px;
-  }
-  .cards-container .card .texto{
-    width: 100%;
-    color: white;
-    height: 80px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    font-family: Arial, Helvetica, sans-serif;
-  }
-  .cards-container .card .texto .titulo{
-    font-size: 2rem;
-    font-weight: 700;
-  }
-  .cards-container .card .texto .desc{
-    font-size: 1.1rem;
-    font-weight: 500;
-    padding: 10px;
-  }
-  .cards-container .card .texto .carrera{
-        font-size: 1.2rem;
-        font-weight: 700;
-  }
-  .cards-container .card .texto .cursos{
-        font-size: 1.1rem;
-        font-weight: 700;
-  }
-  .card-footer {
-    display: flex;
-    flex-direction: column;
-  }
+ /* Modal */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 70%;
+}
+
+.hidden {
+  display: none;
+}
+
+/* Alerta */
+#alert-message {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: orangered;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-family: Arial, sans-serif;
+  z-index: 1000;
+}
+
+body {
+  background-color: whitesmoke;
+  overflow-y: scroll;
+}
+
+h3 {
+  font-size: 1.5rem;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+a {
+  text-decoration: none;
+  font-size: 1.2rem;
+  color: orangered;
+  font-weight: 600;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.container {
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 40px;
+}
+
+.arriba {
+  padding-bottom: 20px;
+}
+
+.cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+  gap: 20px;
+  width: 95%;
+  padding-bottom: 20px;
+}
+
+.card {
+  background-color: rgb(0, 0, 125);
+  width: 50%;
+  height: 550px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  border-radius: 40px;
+}
+
+.texto {
+  width: 100%;
+  color: white;
+  height: 80px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.titulo {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.desc, .carrera, .cursos {
+  font-size: 1.1rem;
+  font-weight: 500;
+  padding: 10px;
+}
+
+.card-footer {
+  display: flex;
+  flex-direction: column;
+}
+
 </style>
 
 <div class="container">
@@ -89,7 +132,7 @@
   <div class="cards-container">
     {{#if proyectos}}
       {{#each proyectos}}
-        <div class="card">
+        <div class="card" data-id="{{idProyecto}}">
           <div class="texto">
             <p class="titulo">{{proyectoNombre}}</p>
             <p class="desc">{{descripcionProyecto}}</p>
@@ -98,11 +141,10 @@
           </div>
           <div class="card-footer">
             <a href="/edit-proyecto/{{idProyecto}}">Editar</a>
-            <a href="/delete-proyecto/{{idProyecto}}">Borrar</a>
+            <a class="delete-btn">Borrar</a>
             {{#if archivo}}
               <a href="/descargar-archivo/{{idProyecto}}" download>Descargar archivo</a>
             {{/if}}
-
           </div>
         </div>
       {{/each}}
@@ -115,3 +157,76 @@
     {{/if}}
   </div>
 </div>
+
+<!-- Modal de confirmación -->
+<div id="confirm-modal" class="modal hidden">
+  <div class="modal-content">
+    <p>¿Estás seguro de que quieres borrar este proyecto?</p>
+    <div class="modal-footer">
+      <button id="confirm-delete">Sí, borrar</button>
+      <button id="cancel-delete">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Alerta -->
+<div id="alert-message" class="hidden"></div>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+  const modal = document.getElementById("confirm-modal");
+  const alertMessage = document.getElementById("alert-message");
+  const confirmDeleteBtn = document.getElementById("confirm-delete");
+  const cancelDeleteBtn = document.getElementById("cancel-delete");
+  let selectedProjectId = null;
+
+  // Delegar el evento de borrar al contenedor principal
+  document.querySelector(".cards-container").addEventListener("click", (e) => {
+    if (e.target.classList.contains("delete-btn")) {
+      const card = e.target.closest(".card");
+      selectedProjectId = card.dataset.id;
+      modal.style.display = "flex";
+    }
+  });
+
+  // Confirmar borrado
+  confirmDeleteBtn.addEventListener("click", async () => {
+    if (!selectedProjectId) return;
+
+    try {
+      const response = await fetch(`/delete-proyecto/${selectedProjectId}`, { method: "GET" });
+
+      if (response.ok) {
+        // Mostrar alerta de éxito
+        showAlert("Proyecto eliminado con éxito");
+
+        // Ocultar modal
+        modal.style.display = "none";
+
+        // Remover tarjeta del DOM
+        document.querySelector(`.card[data-id="${selectedProjectId}"]`).remove();
+      } else {
+        showAlert("Error al eliminar el proyecto", true);
+      }
+    } catch (error) {
+      showAlert("Error al eliminar el proyecto", true);
+    }
+  });
+
+  // Cancelar borrado
+  cancelDeleteBtn.addEventListener("click", () => {
+    modal.style.display = "none";
+  });
+
+  // Función para mostrar alerta
+  function showAlert(message, isError = false) {
+    alertMessage.textContent = message;
+    alertMessage.style.backgroundColor = isError ? "red" : "green";
+    alertMessage.classList.remove("hidden");
+
+    setTimeout(() => {
+      alertMessage.classList.add("hidden");
+    }, 3000);
+  }
+});
+
+</script>

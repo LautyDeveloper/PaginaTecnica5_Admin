@@ -42,6 +42,98 @@
     font-size: 1.3rem;
 
   }
+/* Estilos del modal */
+.modal {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  display: none; /* Oculto por defecto */
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.4); /* Fondo oscuro */
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; /* Centrar vertical y horizontal */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; /* Tamaño del modal */
+  max-width: 400px;
+  text-align: center;
+  border-radius: 8px;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.modal-header {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.modal-body {
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.modal-footer {
+  text-align: center;
+}
+
+.modal-footer button {
+  padding: 8px 16px;
+  font-size: 14px;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.modal-footer button:hover {
+  background-color: #0056b3;
+}
+
+.close-button {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close-button:hover,
+.close-button:focus {
+  color: black;
+  text-decoration: none;
+}
+  #alert-message {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: orangered;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-family: Arial, sans-serif;
+    font-size: 1rem;
+    z-index: 1000;
+  }
+  
+  .hidden {
+    display: none;
+  }
 
 </style>
 <div class="container">
@@ -70,7 +162,7 @@
                 <td>{{fecha}}</td>
                 <td>
                     <a href="/edit-noticia-profe/{{idNoticiaProfe}}">Editar</a>
-                    <a href="/delete-noticia-profe/{{idNoticiaProfe}}">Borrar</a>
+                    <a href="/delete-noticia-profe/{{idNoticiaProfe}}" class="btn-delete" data-id="{{idNoticiaProfe}}">Borrar</a>
                 </td>
               </tr>
             {{/each}}
@@ -86,5 +178,75 @@
         </div>
 {{/if}}
 </div>
+<div class="modal" id="confirmModal" style="display: none;">
+  <div class="modal-content">
+    <h3 id="modalTitle">Confirmación</h3>
+    <p id="modalBody">¿Estás seguro de que deseas eliminar esta novedad?</p>
+    <div class="modal-footer">
+      <button id="confirmDelete" class="btn-confirm">Sí, eliminar</button>
+      <button id="cancelDelete" class="btn-cancel">Cancelar</button>
+    </div>
+  </div>
+</div>
+<div id="alert-message" class="hidden"></div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+  const deleteButtons = document.querySelectorAll(".btn-delete");
+  const modal = document.getElementById("confirmModal");
+  const alertMessage = document.getElementById("alert-message");
+  const confirmDelete = document.getElementById("confirmDelete");
+  const cancelDelete = document.getElementById("cancelDelete");
+
+  let novedadId = null;
+
+  // Mostrar el modal
+  deleteButtons.forEach((button) => {
+    button.addEventListener("click", (e) => {
+      e.preventDefault();
+      novedadId = button.getAttribute("data-id");
+      modal.style.display = "flex";
+    });
+  });
+
+  // Confirmar eliminación
+  confirmDelete.addEventListener("click", async () => {
+    if (novedadId) {
+      try {
+        const response = await fetch(`/delete-noticia-profe/${novedadId}`, {
+          method: "GET",
+        });
+        if (response.ok) {
+          showAlert("Noticia eliminada con éxito");
+              setTimeout(() => {
+                window.location.reload();
+            }, 400);
+        } else {
+          showAlert("Error al eliminar la Noticia", true);
+        }
+      } catch (err) {
+        console.error(err);
+        showAlert("Error al eliminar la Noticia", true);
+      }
+    }
+    modal.style.display = "none";
+  });
+
+  // Cancelar eliminación
+  cancelDelete.addEventListener("click", () => {
+    modal.style.display = "none";
+  });
+  function showAlert(message, isError = false) {
+    alertMessage.textContent = message;
+    alertMessage.style.backgroundColor = isError ? "red" : "green";
+    alertMessage.classList.remove("hidden");
+
+    setTimeout(() => {
+      alertMessage.classList.add("hidden");
+    }, 5000);
+  }
+});
+
+</script>
 
 

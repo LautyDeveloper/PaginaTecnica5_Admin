@@ -1,4 +1,61 @@
 <style>
+    .modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+
+  .modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 400px;
+    text-align: center;
+  }
+
+  .hidden {
+    display: none;
+  }
+  .modal-footer {
+  text-align: center;
+}
+
+.modal-footer button {
+  padding: 8px 16px;
+  font-size: 14px;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.modal-footer button:hover {
+  background-color: #0056b3;
+}
+
+.close-button {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close-button:hover,
+.close-button:focus {
+  color: black;
+  text-decoration: none;
+}
+
     .container{
         display: flex;
         flex-direction: column;
@@ -64,7 +121,7 @@
 </style>
 
 <div class="container">
-<form action="/add-noticia-profesor" method="POST">
+<form action="/add-noticia-profesor" method="POST" id="add-noticia-form">
 <div>  <label for="nombreNoticiaProfe">Nombre de la Noticia</label>
   <input
     type="text"
@@ -87,6 +144,67 @@
 
   </div>
 
-  <button> Crear Noticia </button>
+  <button id="createNoticiaBtn"> Crear Noticia </button>
 </form>
 </div>
+<div id="modal" class="modal hidden">
+  <div class="modal-content">
+    <p id="modalMessage"></p>
+      <div class="modal-footer">
+    <button id="closeModalButton">Cerrar</button>
+  </div>
+  </div>
+
+</div>
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("add-noticia-form");
+  const createButton = document.getElementById("createNoticiaBtn");
+  const modal = document.getElementById("modal");
+  const modalMessage = document.getElementById("modalMessage");
+  const closeModalButton = document.getElementById("closeModalButton");
+
+  closeModalButton.addEventListener("click", () => {
+    window.location.href = "/noticias-profesores";
+  });
+
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    // Crear datos del formulario para enviar
+    const formData = new FormData(form);
+    const data = {
+      nombreNoticiaProfe: formData.get("nombreNoticiaProfe"),
+      descripcionNoticiaProfe: formData.get("descripcionNoticiaProfe")
+    }
+    try {
+      // Mostrar el modal con mensaje de "Creando..."
+      modalMessage.textContent = "Creando la noticia, por favor espere...";
+      modal.classList.remove("hidden");
+      modal.style.display = "block";
+
+      // Enviar datos al servidor
+      const response = await fetch("/add-noticia-profesor", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      if (response.ok) {
+        modalMessage.textContent = "Noticia creada exitosamente!";
+        setTimeout(() => {
+          window.location.href = "/noticias-profesores";
+        }, 4000); // Redirigir después de 2 segundos
+      } else {
+        const error = await response.json();
+        modalMessage.textContent = `Error: ${error.message}`;
+      }
+    } catch (err) {
+      modalMessage.textContent = "Ocurrió un error al crear La Noticia.";
+    }
+  });
+});
+
+
+</script>

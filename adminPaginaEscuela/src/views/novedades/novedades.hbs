@@ -1,88 +1,154 @@
 <style>
-  body{
+  body {
   overflow-y: scroll;
+  background-color: whitesmoke;
+}
 
-    background-color: whitesmoke;
-  }
-  h3{
-    font-size: 1.5rem;
-    font-family: Arial, Helvetica, sans-serif;
-  }
-  a{
-    text-decoration: none;
-    font-size: 1.2rem;
-    color: orangered;
-    font-weight: 600;
-    font-family: Arial, Helvetica, sans-serif;
-  }
-  .container{
-    width: 100vw;
-    height: 85vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    padding-top: 40px;
-  }
-  .container .arriba{
-    padding-bottom: 20px;
-  }
-  
-  table th{
-    border: 2px solid black;
-    font-size: 1.5rem;
-    font-family: Arial, Helvetica, sans-serif;
-    font-weight: 700;
-  }
-  table{
-    width: 95%!important;
-  }
-  table td{
-    border: 2px solid black;
-    font-size: 1.3rem;
+h3, a {
+  font-family: Arial, Helvetica, sans-serif;
+}
 
-  }
+h3 {
+  font-size: 1.5rem;
+}
 
+a {
+  text-decoration: none;
+  font-size: 1.2rem;
+  color: orangered;
+  font-weight: 600;
+}
+
+.container {
+  width: 100vw;
+  height: 85vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 40px;
+}
+
+.arriba {
+  margin-bottom: 20px;
+}
+
+.novedades-table {
+  width: 95%;
+  border-collapse: collapse;
+}
+
+.novedades-table th, .novedades-table td {
+  border: 2px solid black;
+  text-align: left;
+  padding: 10px;
+  font-size: 1.3rem;
+}
+
+.novedades-table th {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.hidden {
+  display: none !important;
+}
+
+.modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: space-around;
+}
+
+.btn-confirm, .btn-cancel {
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-confirm {
+  background-color: green;
+  color: white;
+}
+
+.btn-cancel {
+  background-color: red;
+  color: white;
+}
+
+#alert-message {
+  margin-top: 20px;
+  padding: 10px;
+  text-align: center;
+  border-radius: 5px;
+}
 </style>
 <div class="container">
   <div class="arriba">
-  <h3>Bienvenido a las Novedades</h3>
-  <a href="/add-novedad">Agregar novedad</a>
+    <h3>Bienvenido a las Novedades</h3>
+    <a href="/add-novedad">Agregar novedad</a>
+  </div>
+
+  {{#if novedades}}
+    <table class="novedades-table">
+      <thead>
+        <tr>
+          <th>Novedad</th>
+          <th>Descripción</th>
+          <th>Descripción Larga</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each novedades}}
+          <tr>
+            <td>{{novedad}}</td>
+            <td>{{descripcion}}</td>
+            <td>{{descripcionLarga}}</td>
+            <td>
+              <a href="/edit-novedad/{{idNovedad}}">Editar</a>
+              <a href="/delete-novedad/{{idNovedad}}" class="btn-delete" data-id="{{idNovedad}}">Borrar</a>
+            </td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  {{else}}
+    <div class="empty-state">
+      <h3>Debes crear una novedad</h3>
+      <p>Presiona este botón para registrar una novedad</p>
+      <a href="/add-novedad">Ir a crear</a>
+    </div>
+  {{/if}}
+
+  <div class="modal hidden" id="confirmModal">
+    <div class="modal-content">
+      <h3 id="modalTitle">Confirmación</h3>
+      <p id="modalBody">¿Estás seguro de que deseas eliminar esta novedad?</p>
+      <div class="modal-footer">
+        <button id="confirmDelete" class="btn-confirm">Sí, eliminar</button>
+        <button id="cancelDelete" class="btn-cancel">Cancelar</button>
+      </div>
+    </div>
+  </div>
+  <div id="alert-message" class="hidden"></div>
 </div>
 
-
-
-{{#if novedades}}
-        <table style="width: 70vw;">
-          <thead>
-            <tr>
-              <th class="chico">Novedad</th>
-              <th class="chico">Descripcion</th>
-              <th class="grande">Descripcion Larga</th>
-              <th class="chico">Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            {{#each novedades}}
-              <tr>
-                <td>{{novedad}}</td>
-                <td>{{descripcion}}</td>
-                <td>{{descripcionLarga}}</td>
-                <td>
-                    <a href="/edit-novedad/{{idNovedad}}">Editar</a>
-                    <a href="/delete-novedad/{{idNovedad}}">Borrar</a>
-                </td>
-              </tr>
-            {{/each}}
-
-          </tbody>
-        </table>
-    {{else}}
-        <div>
-          <h3>Debes crear una novedad</h3>
-  
-          <p>Presiona este boton para que puedas registrar una novedad</p>
-          <a href="/add-novedad">Ir a crear</a>
-        </div>
-{{/if}}
-</div>
+<script src="/js/novedades/mostarModalBorrarNovedad.js"></script>

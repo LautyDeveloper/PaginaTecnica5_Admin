@@ -3,32 +3,32 @@ import pool from "../database.js";
 
 const router = Router();
 
+// Mostrar equipo directivo
 router.get("/equipo-directivo", async (req, res) => {
   try {
-    const [result] = await pool.query("SELECT * FROM equipodirectivo");
-    res.render("equipo-directivo/equipo-directivo", {
-      equipoDirectivo: result,
-    });
+    const [equipoDirectivo] = await pool.query("SELECT * FROM equipodirectivo");
+    res.render("equipo-directivo/equipo-directivo", { equipoDirectivo });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
 
-router.get("/add-equipo-directivo", async (req, res) => {
-  res.render("equipo-directivo/add-equipo-directivo");
-});
+// Renderizar formulario para añadir un miembro
+router.get("/add-equipo-directivo", (req, res) =>
+  res.render("equipo-directivo/add-equipo-directivo")
+);
 
+// Añadir miembro al equipo directivo
 router.post("/add-equipo-directivo", async (req, res) => {
   try {
-    const { Nombre, Apellido, Cargo } = req.body;
-    const newEquipoDirectivo = { Nombre, Apellido, Cargo };
-    await pool.query("INSERT INTO equipodirectivo SET ?", [newEquipoDirectivo]);
+    await pool.query("INSERT INTO equipodirectivo SET ?", [req.body]);
     res.redirect("/equipo-directivo");
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
 
+// Renderizar formulario para editar un miembro
 router.get("/edit-equipo-directivo/:idDirectivo", async (req, res) => {
   try {
     const { idDirectivo } = req.params;
@@ -36,26 +36,20 @@ router.get("/edit-equipo-directivo/:idDirectivo", async (req, res) => {
       "SELECT * FROM equipodirectivo WHERE idDirectivo = ?",
       [idDirectivo]
     );
-    const equipoDirectivoEdit = equipoDirectivo[0];
     res.render("equipo-directivo/edit-equipo-directivo", {
-      equipoDirectivo: equipoDirectivoEdit,
+      equipoDirectivo: equipoDirectivo[0],
     });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 });
 
+// Editar un miembro del equipo directivo
 router.post("/edit-equipo-directivo/:idDirectivo", async (req, res) => {
   try {
-    const { Nombre, Apellido, Cargo } = req.body;
     const { idDirectivo } = req.params;
-    const equipoDirectivoEdit = {
-      Nombre,
-      Apellido,
-      Cargo,
-    };
     await pool.query("UPDATE equipodirectivo SET ? WHERE idDirectivo = ?", [
-      equipoDirectivoEdit,
+      req.body,
       idDirectivo,
     ]);
     res.redirect("/equipo-directivo");
@@ -64,6 +58,7 @@ router.post("/edit-equipo-directivo/:idDirectivo", async (req, res) => {
   }
 });
 
+// Eliminar un miembro del equipo directivo
 router.get("/delete-equipo-directivo/:idDirectivo", async (req, res) => {
   try {
     const { idDirectivo } = req.params;
