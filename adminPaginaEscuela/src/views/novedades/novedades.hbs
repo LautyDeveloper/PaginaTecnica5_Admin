@@ -1,93 +1,80 @@
 <style>
-.modal {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  .modal {
+  display: none; /* Ocultar el modal por defecto */
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
-}
-
-.hidden {
-  display: none !important;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
 }
 
 .modal-content {
-  background: white;
+  background: #fff;
   padding: 20px;
-  border-radius: 10px;
+  border-radius: 5px;
   text-align: center;
 }
 
-.modal-footer {
-  display: flex;
-  justify-content: space-around;
-}
-
-.btn-confirm, .btn-cancel {
-  padding: 10px 20px;
+.btn-confirm {
+  background-color: #e74c3c;
+  color: white;
+  padding: 10px;
   border: none;
   cursor: pointer;
 }
 
-.btn-confirm {
-  background-color: green;
-  color: white;
-}
-
 .btn-cancel {
-  background-color: red;
+  background-color: #2ecc71;
   color: white;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
 }
 
-#alert-message {
-  margin-top: 20px;
-  padding: 10px;
-  text-align: center;
-  border-radius: 5px;
-}
 </style>
 <div class="container">
   <div class="arriba">
-  <h3>Bienvenido a las Novedades</h3>
-  <a class="add-novedad-a" href="/add-novedad">Agregar novedad +</a>
-  </div>{{#if novedades}}
-  <div class="novedad-container">
-    <div class="novedad-celda celda-principal"><p>Nombre</p></div>
-    <div class="novedad-celda descripcion-celda celda-principal"><p>Descripción</p></div>
-    <div class="novedad-celda celda-principal celda-acciones-principal"><p>Acciones</p></div>
-    {{#each novedades}}
-      <div class="novedad-celda">{{novedad}}</div>
-      <div class="novedad-celda descripcion-celda">{{descripcion}}</div>
-      <div class="novedad-celda celda-acciones">
-            <a class="edit-novedad-a" href="/edit-novedad/{{idNovedad}}"><img src="img/pe.png"></a>
-            <a class="delete-novedad-a btn-delete" href="/delete-novedad/{{idNovedad}}" data-id="{{idNovedad}}"><img src="img/trash-can.png"></a>
-      </div>
-      {{/each}}
+    <h3>Bienvenido a las Novedades</h3>
+    <a class="add-novedad-a" href="/add-novedad">Agregar novedad +</a>
   </div>
-    
-        
-    {{else}}
-        <div>
-          <h3>Debes crear una novedad</h3>
-  
-          <p>Presiona este boton para que puedas registrar una novedad</p>
-          <a href="/add-novedad">Ir a crear</a>
+  {{#if novedades}}
+    <div class="novedad-container">
+      <div class="novedad-celda celda-principal"><p>Nombre</p></div>
+      <div class="novedad-celda descripcion-celda celda-principal"><p>Descripción</p></div>
+      <div class="novedad-celda celda-principal celda-acciones-principal"><p>Acciones</p></div>
+      {{#each novedades}}
+        <div class="novedad-celda">{{novedad}}</div>
+        <div class="novedad-celda descripcion-celda">{{descripcion}}</div>
+        <div class="novedad-celda celda-acciones">
+          <a class="edit-novedad-a" href="/edit-novedad/{{idNovedad}}">
+            <img src="img/pe.png">
+          </a>
+          <a class="delete-novedad-a btn-delete" data-id="{{idNovedad}}">
+            <img src="img/trash-can.png">
+          </a>
         </div>
-{{/if}}
-</div>
-  <div class="modal hidden" id="confirmModal">
-    <div class="modal-content">
-      <h3 id="modalTitle">Confirmación</h3>
-      <p id="modalBody">¿Estás seguro de que deseas eliminar esta novedad?</p>
-      <div class="modal-footer">
-        <button id="confirmDelete" class="btn-confirm">Sí, eliminar</button>
-        <button id="cancelDelete" class="btn-cancel">Cancelar</button>
-      </div>
+      {{/each}}
     </div>
+  {{else}}
+    <div>
+      <h3>Debes crear una novedad</h3>
+      <p>Presiona este boton para que puedas registrar una novedad</p>
+      <a href="/add-novedad">Ir a crear</a>
+    </div>
+  {{/if}}
+</div>
+
+<!-- Modal para confirmar eliminación -->
+<div id="deleteModal" class="modal">
+  <div class="modal-content">
+    <h3>¿Estás seguro de que deseas eliminar esta novedad?</h3>
+    <button id="confirmDelete" class="btn-confirm">Sí, eliminar</button>
+    <button id="cancelDelete" class="btn-cancel">Cancelar</button>
   </div>
-  <div id="alert-message" class="hidden"></div>
+</div>
+
 <script src="/js/novedades/mostarModalBorrarNovedad.js"></script>

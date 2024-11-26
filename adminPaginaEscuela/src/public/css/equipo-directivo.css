@@ -37,7 +37,7 @@ h3 {
   font-size: 30px;
 }
 
-.profes-container {
+.directivos-container {
   background-color: #0d1cc1;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -48,7 +48,7 @@ h3 {
   margin-bottom: 30px;
 }
 
-.profes-container .novedad-celda {
+.directivos-container .novedad-celda {
   padding: 10px;
   border-radius: 30px;
   text-align: left;
@@ -56,22 +56,22 @@ h3 {
   color: #fff;
 }
 
-.profes-container .celda-principal {
+.directivos-container .celda-principal {
   background-color: #09105a;
   padding: 20px;
   font-size: 1.2rem;
   font-weight: 600;
 }
 
-.profes-container .descripcion-celda {
+.directivos-container .descripcion-celda {
   display: none;
 }
 
-.profes-container .celda-acciones-principal {
+.directivos-container .celda-acciones-principal {
   display: flex;
 }
 
-.profes-container .celda-acciones {
+.directivos-container .celda-acciones {
   width: auto;
   height: 100%;
   background-color: transparent;
@@ -81,7 +81,7 @@ h3 {
   gap: 10px;
 }
 
-.profes-container .celda-acciones a {
+.directivos-container .celda-acciones a {
   display: grid;
   place-items: center;
   text-align: center;
@@ -90,28 +90,28 @@ h3 {
   border-radius: 30px;
 }
 
-.profes-container .celda-acciones .edit-novedad-a {
+.directivos-container .celda-acciones .edit-novedad-a {
   background-color: #1859dc;
 }
 
-.profes-container .celda-acciones .edit-novedad-a:hover {
+.directivos-container .celda-acciones .edit-novedad-a:hover {
   background-color: #134ab8;
 }
 
-.profes-container .celda-acciones .delete-novedad-a {
+.directivos-container .celda-acciones .delete-novedad-a {
   background-color: #dc1b18;
 }
 
-.profes-container .celda-acciones .delete-novedad-a:hover {
+.directivos-container .celda-acciones .delete-novedad-a:hover {
   background-color: #86100e;
 }
 
 @media (min-width: 730px) {
-  .profes-container {
+  .directivos-container {
     grid-template-columns: 1fr 1fr 1fr auto;
     width: 80%;
   }
-  .profes-container .descripcion-celda {
+  .directivos-container .descripcion-celda {
     display: block;
   }
 }
