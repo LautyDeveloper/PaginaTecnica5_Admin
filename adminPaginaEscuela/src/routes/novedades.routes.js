@@ -32,38 +32,42 @@ const validateNovedad = ({ novedad, descripcion, descripcionLarga }) => {
 };
 
 // Ruta para añadir una nueva novedad
-router.post("/add-novedad", multerConfig.single("imagen"), async (req, res) => {
-  try {
-    const { novedad, descripcion, descripcionLarga } = req.body;
+router.post(
+  "/add-novedad",
+  multerConfig.single("imagenUrl"),
+  async (req, res) => {
+    try {
+      const { novedad, descripcion, descripcionLarga } = req.body;
 
-    // Validación de los datos del formulario
-    const validationErrors = validateNovedad({
-      novedad,
-      descripcion,
-      descripcionLarga,
-    });
+      // Validación de los datos del formulario
+      const validationErrors = validateNovedad({
+        novedad,
+        descripcion,
+        descripcionLarga,
+      });
 
-    // Si hay errores, respondemos con un código 400 y los mensajes de error
-    if (validationErrors.length > 0) {
-      return res.status(400).json({ errors: validationErrors });
+      // Si hay errores, respondemos con un código 400 y los mensajes de error
+      if (validationErrors.length > 0) {
+        return res.status(400).json({ errors: validationErrors });
+      }
+
+      // Si se subió una imagen, se guarda la URL correspondiente
+      const imagenUrl = req.file ? `/uploads/${req.file.filename}` : null;
+
+      // Crear un nuevo objeto con la novedad
+      const newNovedad = { novedad, descripcion, descripcionLarga, imagenUrl };
+
+      // Insertar la novedad en la base de datos
+      await pool.query("INSERT INTO novedades SET ?", [newNovedad]);
+
+      // Redirigir a la vista de novedades
+      res.redirect("/novedades");
+    } catch (err) {
+      // En caso de error, respondemos con un mensaje de error
+      res.status(500).json({ message: err.message });
     }
-
-    // Si se subió una imagen, se guarda la URL correspondiente
-    const imagenUrl = req.file ? `/uploads/${req.file.filename}` : null;
-
-    // Crear un nuevo objeto con la novedad
-    const newNovedad = { novedad, descripcion, descripcionLarga, imagenUrl };
-
-    // Insertar la novedad en la base de datos
-    await pool.query("INSERT INTO novedades SET ?", [newNovedad]);
-
-    // Redirigir a la vista de novedades
-    res.redirect("/novedades");
-  } catch (err) {
-    // En caso de error, respondemos con un mensaje de error
-    res.status(500).json({ message: err.message });
   }
-});
+);
 
 // Mostrar todas las novedades
 router.get("/novedades", async (req, res) => {

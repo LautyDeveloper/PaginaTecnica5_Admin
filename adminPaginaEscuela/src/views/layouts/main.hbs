@@ -1,73 +1,20 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta charset="UTF-8">
     <title>Admin Panel</title>
-    <link rel="stylesheet" href="css/modalAgregarNovedad.css">
-    <link rel="stylesheet" href="css/modalBorrarNovedad.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/novedades.css">
+    <link rel="stylesheet" href="css/navigation.css">
+    <link rel="stylesheet" href="css/add-novedad.css">
+    <link rel="stylesheet" href="css/profes.css">
+    <link rel="stylesheet" href="css/add-noticias-profes.css">
+    <link rel="stylesheet" href="css/equipo-directivo.css">
+    <link rel="stylesheet" href="css/add-directivo.css">
+    <link rel="stylesheet" href="css/proyectos.css">
+    <link rel="stylesheet" href="css/add-proyecto.css">
 </head>
-<style> 
-    *{
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-    }
-    nav{
-        background-color: #2a05d7;
-        width: 100vw;
-        height: 100px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        color: white;
-        font-size: 1.4rem;
-        font-family: Arial, Helvetica, sans-serif;
-    }
-    nav a{
-        color: white;
-        text-decoration: none;
-        background-color: orangered;
-        padding: 10px 20px;
-        border-radius: 20px;
-    }
-    nav div{
-        display: flex;
-        flex-direction: row-reverse;
-        align-items: center;
-        width: 40%;
-        justify-content: space-between;
-    }
-    body{
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        align-items: center;
-        text-align: center;
-        background-color: whitesmoke;
-        overflow: hidden;
-    }
-    body ul{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: space-around;
-        height: 400px;
-    }
-    body ul a{
-        background-color: orangered;
-        width: 400px;
-        height: 40px;
-        display: grid;
-        place-items: center;
-        text-decoration: none;
-        color: white;
-        font-size: 1.3rem;
-        font-family: Arial, Helvetica, sans-serif;
-        font-weight: 600;
-    }
-
-</style>
 <body>
     {{>navigation}}
     {{{body}}}

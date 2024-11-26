@@ -1,0 +1,106 @@
+.add-profe-container {
+  display: grid;
+  place-items: center;
+  width: 95%;
+  height: auto;
+  background-color: rgb(0, 0, 79);
+  border-radius: 20px;
+  margin: auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.add-profe-container form {
+  display: grid;
+  gap: 20px;
+  padding: 20px;
+  width: 97%;
+  height: 100%;
+}
+.add-profe-container form button {
+  background-color: orangered;
+  border-radius: 20px;
+  padding: 20px 20px;
+  border: none;
+  outline: none;
+  color: white;
+  font-size: 1.2rem;
+  font-weight: 700;
+  height: 70px;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.add-profe-container form button:hover {
+  background-color: rgb(189, 35, 0);
+}
+
+.add-profe-container form div {
+  display: grid;
+  width: 100%;
+  gap: 20px;
+}
+.add-profe-container form div label {
+  color: orangered;
+  font-size: 1.3rem;
+  font-weight: 700;
+  font-family: Arial, Helvetica, sans-serif;
+  text-align: left;
+}
+
+.add-profe-container form div input,
+textarea {
+  width: 100%;
+  border: none;
+  outline: none;
+  padding-left: 10px;
+  resize: none;
+  border-radius: 30px;
+  padding: 20px 20px;
+  background-color: rgb(2, 31, 194);
+  color: white;
+  font-weight: 600;
+  font-size: 1em;
+}
+
+.add-profe-container form div input:focus,
+textarea:focus {
+  background-color: #0032d6;
+}
+
+.add-profe-container form div input[type="file"]::file-selector-button {
+  padding: 10px 20px;
+  background-color: #0045da;
+  color: white;
+  border: 1px solid #007bff;
+  border-radius: 30px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.add-profe-container form div input[type="file"]::file-selector-button:hover {
+  background-color: white;
+  color: #007bff;
+}
+
+.add-profe-container form div input::placeholder,
+textarea::placeholder {
+  color: white;
+}
+
+.add-profe-container form div .corta {
+  height: 70px;
+}
+
+.add-profe-container form div .larga {
+  height: 300px;
+}
+
+@media (min-width: 600px) {
+  .add-profe-container {
+    width: 600px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+
+}

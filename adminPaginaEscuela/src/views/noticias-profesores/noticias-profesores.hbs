@@ -138,37 +138,26 @@
 </style>
 <div class="container">
   <div class="arriba">
-  <h3>Bienvenido a las Novedades para Profesores</h3>
-  <a href="/add-noticia-profesor">Agregar novedad</a>
-</div>
-
-
+    <h3>Bienvenido a las Noticias para Profesores</h3>
+    <a class="add-noticia-profe" href="/add-noticia-profesor">Agregar noticia +</a>
+  </div>
 
 {{#if noticiasProfes}}
-        <table style="width: 70vw;">
-          <thead>
-            <tr>
-              <th class="chico">Novedad</th>
-              <th class="chico">Descripcion</th>
-              <th class="chico">Fecha</th>
-              <th class="chico">Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            {{#each noticiasProfes}}
-              <tr>
-                <td>{{nombreNoticiaProfe}}</td>
-                <td>{{descripcionNoticiaProfe}}</td>
-                <td>{{fecha}}</td>
-                <td>
-                    <a href="/edit-noticia-profe/{{idNoticiaProfe}}">Editar</a>
-                    <a href="/delete-noticia-profe/{{idNoticiaProfe}}" class="btn-delete" data-id="{{idNoticiaProfe}}">Borrar</a>
-                </td>
-              </tr>
-            {{/each}}
-
-          </tbody>
-        </table>
+    <div class="profes-container">
+      <div class="novedad-celda celda-principal"><p>Titulo</p></div>
+      <div class="novedad-celda descripcion-celda celda-principal"><p>Descripción</p></div>
+      <div class="novedad-celda descripcion-celda celda-principal"><p>Fecha</p></div>
+      <div class="novedad-celda celda-principal profes-celda-acciones-principal"><p>Acciones</p></div>
+    {{#each noticiasProfes}}
+      <div class="novedad-celda">{{nombreNoticiaProfe}}</div>
+      <div class="novedad-celda descripcion-celda">{{descripcionNoticiaProfe}}</div>
+      <div class="novedad-celda descripcion-celda">{{fecha}}</div>
+      <div class="novedad-celda celda-acciones">
+            <a class="edit-novedad-a" href="/edit-noticia-profe/{{idNoticiaProfe}}"><img src="img/pe.png"></a>
+            <a class="delete-novedad-a btn-delete" href="/delete-noticia-profe/{{idNoticiaProfe}}" data-id="{{idNoticiaProfe}}"><img src="img/trash-can.png"></a>
+      </div>
+      {{/each}}
+    </div>
     {{else}}
         <div>
           <h3>Debes crear una novedad</h3>
@@ -178,6 +167,7 @@
         </div>
 {{/if}}
 </div>
+
 <div class="modal" id="confirmModal" style="display: none;">
   <div class="modal-content">
     <h3 id="modalTitle">Confirmación</h3>

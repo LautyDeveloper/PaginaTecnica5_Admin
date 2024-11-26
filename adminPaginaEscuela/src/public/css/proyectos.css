@@ -1,0 +1,124 @@
+body {
+  overflow-y: scroll;
+  background-color: whitesmoke;
+  font-family: sans-serif;
+}
+h3 {
+  font-size: 1.5rem;
+  font-family: Arial, Helvetica, sans-serif;
+}
+.add-proyecto-a {
+  text-decoration: none;
+  font-size: 1.2rem;
+  color: #fff;
+  background-color: orangered;
+  font-weight: 600;
+  padding: 20px 30px;
+  border-radius: 30px;
+}
+.container {
+  width: 100vw;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: 40px;
+}
+.container .arriba {
+  display: grid;
+  height: auto;
+  padding: 20px;
+  gap: 20px;
+  padding-bottom: 20px;
+}
+
+.container .arriba h3 {
+  font-size: 30px;
+}
+
+.proyectos-container {
+  background-color: #0d1cc1;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  padding: 30px;
+  border-radius: 30px;
+  gap: 10px;
+  margin-bottom: 20px;
+  width: 97%;
+}
+
+.proyectos-container .proyecto-celda {
+  padding: 10px;
+  border-radius: 30px;
+  text-align: left;
+  background-color: #1828dc;
+  color: #fff;
+}
+
+.proyectos-container .celda-principal {
+  background-color: #09105a;
+  padding: 20px;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.proyectos-container .descripcion-celda {
+  display: none;
+}
+
+.proyectos-container .celda-acciones-principal {
+  display: flex;
+}
+
+.proyectos-container .celda-acciones {
+  width: auto;
+  height: 100%;
+  background-color: transparent;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 10px;
+}
+
+.proyectos-container .celda-acciones a {
+  display: grid;
+  place-items: center;
+  text-align: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 30px;
+}
+
+.proyectos-container .celda-acciones .edit-proyecto-a {
+  background-color: #1859dc;
+}
+
+.proyectos-container .celda-acciones .edit-proyecto-a:hover {
+  background-color: #134ab8;
+}
+
+.proyectos-container .celda-acciones .delete-proyecto-a {
+  background-color: #dc1b18;
+}
+
+.proyectos-container .celda-acciones .delete-proyecto-a:hover {
+  background-color: #86100e;
+}
+
+.proyectos-container .celda-acciones .download-proyecto-a {
+  background-color: #db620b;
+}
+
+.proyectos-container .celda-acciones .download-proyecto-a:hover {
+  background-color: #b9470a;
+}
+@media (min-width: 630px) {
+  .proyectos-container {
+    grid-template-columns: 1fr 1fr 1fr auto;
+    width: 70%;
+  }
+  .proyectos-container .descripcion-celda {
+    display: block;
+  }
+}

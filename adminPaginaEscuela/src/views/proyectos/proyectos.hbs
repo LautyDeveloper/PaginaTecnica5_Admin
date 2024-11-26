@@ -1,153 +1,80 @@
 <style>
- /* Modal */
+
+
 .modal {
-  display: none;
   position: fixed;
-  z-index: 1000;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
   justify-content: center;
   align-items: center;
 }
 
 .modal-content {
-  background: white;
+  background: #fff;
   padding: 20px;
-  border-radius: 5px;
+  border-radius: 8px;
+  width: 300px;
   text-align: center;
 }
 
-.modal-footer {
+.modal-buttons {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  width: 70%;
+  margin-top: 20px;
 }
 
-.hidden {
+.btn-confirm {
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn-cancel {
+  background-color: gray;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.oculto {
   display: none;
 }
 
-/* Alerta */
-#alert-message {
-  position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: orangered;
-  color: white;
-  padding: 10px 20px;
-  border-radius: 5px;
-  font-size: 1rem;
-  font-family: Arial, sans-serif;
-  z-index: 1000;
-}
-
-body {
-  background-color: whitesmoke;
-  overflow-y: scroll;
-}
-
-h3 {
-  font-size: 1.5rem;
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-a {
-  text-decoration: none;
-  font-size: 1.2rem;
-  color: orangered;
-  font-weight: 600;
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-.container {
-  width: 100vw;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-top: 40px;
-}
-
-.arriba {
-  padding-bottom: 20px;
-}
-
-.cards-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  align-items: center;
-  gap: 20px;
-  width: 95%;
-  padding-bottom: 20px;
-}
-
-.card {
-  background-color: rgb(0, 0, 125);
-  width: 50%;
-  height: 550px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  align-items: center;
-  border-radius: 40px;
-}
-
-.texto {
-  width: 100%;
-  color: white;
-  height: 80px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.titulo {
-  font-size: 2rem;
-  font-weight: 700;
-}
-
-.desc, .carrera, .cursos {
-  font-size: 1.1rem;
-  font-weight: 500;
-  padding: 10px;
-}
-
-.card-footer {
-  display: flex;
-  flex-direction: column;
-}
-
 </style>
-
 <div class="container">
   <div class="arriba">
     <h3>Gestión de proyectos</h3>
-    <a href="/add-proyecto">Agregar proyecto</a>
+    <a class="add-proyecto-a" href="/add-proyecto">Agregar proyecto +</a>
   </div>
-  <div class="cards-container">
+  <div class="proyectos-container">
     {{#if proyectos}}
-      {{#each proyectos}}
-        <div class="card" data-id="{{idProyecto}}">
-          <div class="texto">
-            <p class="titulo">{{proyectoNombre}}</p>
-            <p class="desc">{{descripcionProyecto}}</p>
-            <p class="carrera">{{carrera}}</p>
-            <p class="cursos">{{cursos}}</p>
-          </div>
-          <div class="card-footer">
-            <a href="/edit-proyecto/{{idProyecto}}">Editar</a>
-            <a class="delete-btn">Borrar</a>
-            {{#if archivo}}
-              <a href="/descargar-archivo/{{idProyecto}}" download>Descargar archivo</a>
-            {{/if}}
-          </div>
-        </div>
-      {{/each}}
+        <div class="proyecto-celda celda-principal"><p>Nombre</p></div>
+        <div class="proyecto-celda descripcion-celda celda-principal"><p>Carrera</p></div>
+        <div class="proyecto-celda descripcion-celda celda-principal"><p>Cursos</p></div>
+        <div class="proyecto-celda celda-principal celda-acciones-principal"><p>Acciones</p></div>
+          {{#each proyectos}}
+            <div class="proyecto-celda" data-id="{{idProyecto}}">{{proyectoNombre}}</div>
+            <div class="proyecto-celda descripcion-celda">{{carrera}}</div>
+            <div class="proyecto-celda descripcion-celda">{{cursos}}</div>
+            <div class="proyecto-celda celda-acciones">
+              <a class="edit-proyecto-a" href="/edit-proyecto/{{idProyecto}}"><img src="img/pe.png"></a>
+              <a class="delete-proyecto-a delete-btn" href="#" data-id="{{idProyecto}}" onclick="openDeleteModal(event, '{{idProyecto}}')"> <img src="img/trash-can.png"></a>
+              {{!-- <a class="delete-proyecto-a delete-btn" href="/delete-proyecto/{{idProyecto}}"><img src="img/trash-can.png"></a> --}}
+                {{#if archivo}}
+                  <a class="download-proyecto-a" href="/descargar-archivo/{{idProyecto}}" download><img src="img/downloads.png" alt=""></a>
+                {{/if}}
+            </div>
+            {{/each}}
+    </div>
+      
     {{else}}
       <div>
         <h3>Debes crear un proyecto</h3>
@@ -155,78 +82,46 @@ a {
         <a href="/add-proyecto">Ir a crear</a>
       </div>
     {{/if}}
-  </div>
-</div>
-
-<!-- Modal de confirmación -->
-<div id="confirm-modal" class="modal hidden">
+<div id="deleteModal" class="modal oculto">
   <div class="modal-content">
-    <p>¿Estás seguro de que quieres borrar este proyecto?</p>
-    <div class="modal-footer">
-      <button id="confirm-delete">Sí, borrar</button>
-      <button id="cancel-delete">Cancelar</button>
+    <h4>¿Estás seguro de que quieres borrar este proyecto?</h4>
+    <p>Esta acción no se puede deshacer.</p>
+    <div class="modal-buttons">
+      <button id="confirmDelete" class="btn-confirm">Eliminar</button>
+      <button id="cancelDelete" class="btn-cancel">Cancelar</button>
     </div>
   </div>
 </div>
 
-<!-- Alerta -->
-<div id="alert-message" class="hidden"></div>
+</div> 
 <script>
   document.addEventListener("DOMContentLoaded", () => {
-  const modal = document.getElementById("confirm-modal");
-  const alertMessage = document.getElementById("alert-message");
-  const confirmDeleteBtn = document.getElementById("confirm-delete");
-  const cancelDeleteBtn = document.getElementById("cancel-delete");
-  let selectedProjectId = null;
+  const modal = document.getElementById("deleteModal");
+  const confirmDeleteBtn = document.getElementById("confirmDelete");
+  const cancelDeleteBtn = document.getElementById("cancelDelete");
 
-  // Delegar el evento de borrar al contenedor principal
-  document.querySelector(".cards-container").addEventListener("click", (e) => {
-    if (e.target.classList.contains("delete-btn")) {
-      const card = e.target.closest(".card");
-      selectedProjectId = card.dataset.id;
-      modal.style.display = "flex";
+  let currentProjectId = null; // Variable para almacenar el ID del proyecto a borrar
+
+  // Función para abrir el modal
+  window.openDeleteModal = (event, projectId) => {
+    event.preventDefault(); // Prevenir el enlace predeterminado
+    currentProjectId = projectId; // Guardar el ID del proyecto a borrar
+    modal.classList.remove("oculto"); // Mostrar el modal
+  };
+
+  // Función para confirmar el borrado
+  confirmDeleteBtn.addEventListener("click", () => {
+    if (currentProjectId) {
+      // Redirigir a la ruta de eliminación
+      window.location.href = `/delete-proyecto/${currentProjectId}`;
     }
   });
 
-  // Confirmar borrado
-  confirmDeleteBtn.addEventListener("click", async () => {
-    if (!selectedProjectId) return;
-
-    try {
-      const response = await fetch(`/delete-proyecto/${selectedProjectId}`, { method: "GET" });
-
-      if (response.ok) {
-        // Mostrar alerta de éxito
-        showAlert("Proyecto eliminado con éxito");
-
-        // Ocultar modal
-        modal.style.display = "none";
-
-        // Remover tarjeta del DOM
-        document.querySelector(`.card[data-id="${selectedProjectId}"]`).remove();
-      } else {
-        showAlert("Error al eliminar el proyecto", true);
-      }
-    } catch (error) {
-      showAlert("Error al eliminar el proyecto", true);
-    }
-  });
-
-  // Cancelar borrado
+  // Función para cancelar el borrado
   cancelDeleteBtn.addEventListener("click", () => {
-    modal.style.display = "none";
+    currentProjectId = null; // Limpiar el ID almacenado
+    modal.classList.add("oculto"); // Ocultar el modal
   });
-
-  // Función para mostrar alerta
-  function showAlert(message, isError = false) {
-    alertMessage.textContent = message;
-    alertMessage.style.backgroundColor = isError ? "red" : "green";
-    alertMessage.classList.remove("hidden");
-
-    setTimeout(() => {
-      alertMessage.classList.add("hidden");
-    }, 3000);
-  }
 });
 
 </script>

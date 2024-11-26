@@ -1,54 +1,4 @@
 <style>
-  body {
-  overflow-y: scroll;
-  background-color: whitesmoke;
-}
-
-h3, a {
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-h3 {
-  font-size: 1.5rem;
-}
-
-a {
-  text-decoration: none;
-  font-size: 1.2rem;
-  color: orangered;
-  font-weight: 600;
-}
-
-.container {
-  width: 100vw;
-  height: 85vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-top: 40px;
-}
-
-.arriba {
-  margin-bottom: 20px;
-}
-
-.novedades-table {
-  width: 95%;
-  border-collapse: collapse;
-}
-
-.novedades-table th, .novedades-table td {
-  border: 2px solid black;
-  text-align: left;
-  padding: 10px;
-  font-size: 1.3rem;
-}
-
-.novedades-table th {
-  font-size: 1.5rem;
-  font-weight: 700;
-}
-
 .modal {
   display: flex;
   justify-content: center;
@@ -102,42 +52,33 @@ a {
 </style>
 <div class="container">
   <div class="arriba">
-    <h3>Bienvenido a las Novedades</h3>
-    <a href="/add-novedad">Agregar novedad</a>
+  <h3>Bienvenido a las Novedades</h3>
+  <a class="add-novedad-a" href="/add-novedad">Agregar novedad +</a>
+  </div>{{#if novedades}}
+  <div class="novedad-container">
+    <div class="novedad-celda celda-principal"><p>Nombre</p></div>
+    <div class="novedad-celda descripcion-celda celda-principal"><p>Descripción</p></div>
+    <div class="novedad-celda celda-principal celda-acciones-principal"><p>Acciones</p></div>
+    {{#each novedades}}
+      <div class="novedad-celda">{{novedad}}</div>
+      <div class="novedad-celda descripcion-celda">{{descripcion}}</div>
+      <div class="novedad-celda celda-acciones">
+            <a class="edit-novedad-a" href="/edit-novedad/{{idNovedad}}"><img src="img/pe.png"></a>
+            <a class="delete-novedad-a btn-delete" href="/delete-novedad/{{idNovedad}}" data-id="{{idNovedad}}"><img src="img/trash-can.png"></a>
+      </div>
+      {{/each}}
   </div>
-
-  {{#if novedades}}
-    <table class="novedades-table">
-      <thead>
-        <tr>
-          <th>Novedad</th>
-          <th>Descripción</th>
-          <th>Descripción Larga</th>
-          <th>Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        {{#each novedades}}
-          <tr>
-            <td>{{novedad}}</td>
-            <td>{{descripcion}}</td>
-            <td>{{descripcionLarga}}</td>
-            <td>
-              <a href="/edit-novedad/{{idNovedad}}">Editar</a>
-              <a href="/delete-novedad/{{idNovedad}}" class="btn-delete" data-id="{{idNovedad}}">Borrar</a>
-            </td>
-          </tr>
-        {{/each}}
-      </tbody>
-    </table>
-  {{else}}
-    <div class="empty-state">
-      <h3>Debes crear una novedad</h3>
-      <p>Presiona este botón para registrar una novedad</p>
-      <a href="/add-novedad">Ir a crear</a>
-    </div>
-  {{/if}}
-
+    
+        
+    {{else}}
+        <div>
+          <h3>Debes crear una novedad</h3>
+  
+          <p>Presiona este boton para que puedas registrar una novedad</p>
+          <a href="/add-novedad">Ir a crear</a>
+        </div>
+{{/if}}
+</div>
   <div class="modal hidden" id="confirmModal">
     <div class="modal-content">
       <h3 id="modalTitle">Confirmación</h3>
@@ -149,6 +90,4 @@ a {
     </div>
   </div>
   <div id="alert-message" class="hidden"></div>
-</div>
-
 <script src="/js/novedades/mostarModalBorrarNovedad.js"></script>
