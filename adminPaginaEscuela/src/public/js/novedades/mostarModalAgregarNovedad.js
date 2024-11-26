@@ -21,13 +21,38 @@ document
   .addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const form = e.target; // El formulario completo
-    const formData = new FormData(form); // Obtiene todos los datos, incluida la imagen
+    const form = e.target;
+    const novedad = form.novedad.value.trim();
+    const descripcion = form.descripcion.value.trim();
+    const descripcionLarga = form.descripcionLarga.value.trim();
+
+    // Validaciones en el frontend
+    if (!novedad || novedad.length > 50) {
+      toggleModal("Error", "El título no puede superar los 50 caracteres.");
+      return;
+    }
+    if (!descripcion || descripcion.length > 70) {
+      toggleModal(
+        "Error",
+        "La descripción no puede superar los 70 caracteres."
+      );
+      return;
+    }
+    if (!descripcionLarga || descripcionLarga.length < 90) {
+      toggleModal(
+        "Error",
+        "La descripción larga debe tener al menos 90 caracteres."
+      );
+      return;
+    }
+
+    // Enviar los datos al backend
+    const formData = new FormData(form);
 
     try {
       const response = await fetch("/add-novedad", {
         method: "POST",
-        body: formData, // Enviar FormData directamente
+        body: formData,
       });
 
       if (response.ok) {
@@ -37,7 +62,7 @@ document
         const error = await response.json();
         toggleModal(
           "Error",
-          error.message || "Ocurrió un error al añadir la novedad."
+          error.errors ? error.errors.join("\n") : "Ocurrió un error."
         );
       }
     } catch (err) {

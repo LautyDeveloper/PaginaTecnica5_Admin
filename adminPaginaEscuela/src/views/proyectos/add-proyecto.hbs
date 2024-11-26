@@ -195,24 +195,44 @@
 </div>
 </div>
 <script>
-  document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("add-proyecto-form");
   const createButton = document.getElementById("createProjectBtn");
   const modal = document.getElementById("modal");
   const modalMessage = document.getElementById("modalMessage");
   
   const closeModalButton = document.getElementById("closeModalButton");
-    closeModalButton.addEventListener("click", () => {
+  closeModalButton.addEventListener("click", () => {
     window.location.href = "/proyectos";
   });
 
+  // Validación para el campo Cursos
+  function validateCursos(cursos) {
+    // Asegurarse de que no esté vacío
+    if (!cursos || cursos.trim() === "") {
+      return "El campo 'Cursos' no puede estar vacío.";
+    }
+
+    return null;
+  }
 
   createButton.addEventListener("click", async (e) => {
     e.preventDefault();
 
     // Crear datos del formulario para enviar
     const formData = new FormData(form);
-    console.log(FormData);
+    const proyectoNombre = formData.get("proyectoNombre");
+    const descripcionProyecto = formData.get("descripcionProyecto");
+    const cursos = formData.get("cursos");
+    const srcVideo = formData.get("srcVideo");
+
+    // Validación de campos antes de enviar
+    let validationError = validateCursos(cursos);
+    if (validationError) {
+      modalMessage.textContent = validationError;
+      modal.style.display = "block";
+      return;
+    }
 
     try {
       // Mostrar el modal con mensaje de "Creando..."
@@ -230,7 +250,7 @@
         modalMessage.textContent = "¡Proyecto creado exitosamente!";
         setTimeout(() => {
           window.location.href = "/proyectos";
-        }, 4000); // Redirigir después de 2 segundos
+        }, 4000); // Redirigir después de 4 segundos
       } else {
         const error = await response.json();
         modalMessage.textContent = `Error: ${error.message}`;
@@ -241,12 +261,10 @@
   });
 
   // Cerrar el modal al hacer clic en la 'X'
-  closeModal.addEventListener("click", () => {
+  closeModalButton.addEventListener("click", () => {
     modal.style.display = "none";
     window.location.href = "/proyectos";
-
   });
 });
-
 
 </script>

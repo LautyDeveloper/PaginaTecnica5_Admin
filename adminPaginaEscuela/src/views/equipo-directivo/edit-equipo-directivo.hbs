@@ -148,56 +148,89 @@
         </div>
     </div>
 <script>
-        document.addEventListener("DOMContentLoaded", () => {
-        const updateButton = document.getElementById("updateButton");
-        const modal = document.getElementById("messageModal");
-        const closeModal = document.getElementById("closeModal");
-        const modalTitle = document.getElementById("modalTitle");
-        const modalBody = document.getElementById("modalBody");
-        const form = document.querySelector("form");
+    document.addEventListener("DOMContentLoaded", () => {
+  const updateButton = document.getElementById("updateButton");
+  const modal = document.getElementById("messageModal");
+  const closeModal = document.getElementById("closeModal");
+  const modalTitle = document.getElementById("modalTitle");
+  const modalBody = document.getElementById("modalBody");
+  const form = document.querySelector("form");
 
-        form.addEventListener("submit", async (e) => {
-            e.preventDefault(); // Prevenir recarga de la página
+  // Validación en el frontend
+  function validateDirectivoFrontend({ Nombre, Apellido, Cargo }) {
+    const errors = [];
 
-            const formData = new FormData(form);
-            const data = {
-                Nombre: formData.get("Nombre"),
-                Apellido: formData.get("Apellido"),
-                Cargo: formData.get("Cargo"),
-            };
+    if (!Nombre || Nombre.trim().length < 2 || Nombre.length > 50) {
+      errors.push("El nombre debe tener entre 2 y 50 caracteres.");
+    } else if (!/^[a-zA-Z\s]+$/.test(Nombre)) {
+      errors.push("El nombre solo puede contener letras y espacios.");
+    }
 
-            try {
-                const response = await fetch(form.action, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(data),
-                });
+    if (!Apellido || Apellido.trim().length < 2 || Apellido.length > 50) {
+      errors.push("El apellido debe tener entre 2 y 50 caracteres.");
+    } else if (!/^[a-zA-Z\s]+$/.test(Apellido)) {
+      errors.push("El apellido solo puede contener letras y espacios.");
+    }
 
-                if (response.ok) {
-                    modalTitle.textContent = "Éxito";
-                    modalBody.textContent = "El directivo se actualizó correctamente.";
-                    modal.style.display = "flex";
+    if (!Cargo || Cargo.trim().length < 3 || Cargo.length > 100) {
+      errors.push("El cargo debe tener entre 3 y 100 caracteres.");
+    }
 
-                    setTimeout(() => {
-                        window.location.href = "/equipo-directivo";
-                    }, 2000);
-                } else {
-                    const error = await response.json();
-                    modalTitle.textContent = "Error";
-                    modalBody.textContent = error.message || "Ocurrió un problema al actualizar.";
-                    modal.style.display = "flex";
-                }
-            } catch (err) {
-                console.error(err);
-                modalTitle.textContent = "Error";
-                modalBody.textContent = "Hubo un problema con la conexión.";
-                modal.style.display = "flex";
-            }
-        });
+    return errors;
+  }
 
-        closeModal.addEventListener("click", () => {
-            modal.style.display = "none";
-            window.location.href = "/equipo-directivo";
-        });
-    });
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(form);
+    const data = {
+      Nombre: formData.get("Nombre"),
+      Apellido: formData.get("Apellido"),
+      Cargo: formData.get("Cargo"),
+    };
+
+    // Validaciones en el frontend
+    const validationErrors = validateDirectivoFrontend(data);
+    if (validationErrors.length > 0) {
+      modalTitle.textContent = "Error Al Editar";
+      modalBody.textContent = validationErrors.join("\n");
+      modal.style.display = "flex";
+      return;
+    }
+
+    try {
+      const response = await fetch(form.action, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      if (response.ok) {
+        modalTitle.textContent = "Éxito";
+        modalBody.textContent = "El directivo se actualizó correctamente.";
+        modal.style.display = "flex";
+
+        setTimeout(() => {
+          window.location.href = "/equipo-directivo";
+        }, 2000);
+      } else {
+        const error = await response.json();
+        modalTitle.textContent = "Error";
+        modalBody.textContent =
+          error.errors?.join("\n") || error.message || "Error al actualizar.";
+        modal.style.display = "flex";
+      }
+    } catch (err) {
+      console.error(err);
+      modalTitle.textContent = "Error";
+      modalBody.textContent = "Hubo un problema con la conexión.";
+      modal.style.display = "flex";
+    }
+  });
+
+  closeModal.addEventListener("click", () => {
+    modal.style.display = "none";
+    window.location.href = "/equipo-directivo";
+  });
+});
 </script>

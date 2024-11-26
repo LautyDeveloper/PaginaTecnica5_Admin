@@ -159,7 +159,6 @@
 <script>
   document.addEventListener("DOMContentLoaded", () => {
   const form = document.getElementById("add-noticia-form");
-  const createButton = document.getElementById("createNoticiaBtn");
   const modal = document.getElementById("modal");
   const modalMessage = document.getElementById("modalMessage");
   const closeModalButton = document.getElementById("closeModalButton");
@@ -168,7 +167,6 @@
     window.location.href = "/noticias-profesores";
   });
 
-
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
@@ -176,8 +174,23 @@
     const formData = new FormData(form);
     const data = {
       nombreNoticiaProfe: formData.get("nombreNoticiaProfe"),
-      descripcionNoticiaProfe: formData.get("descripcionNoticiaProfe")
+      descripcionNoticiaProfe: formData.get("descripcionNoticiaProfe"),
+    };
+
+    // Validaciones locales
+    if (!data.nombreNoticiaProfe || data.nombreNoticiaProfe.length < 5 || data.nombreNoticiaProfe.length > 50 || !/^[a-zA-Z\s]+$/.test(data.nombreNoticiaProfe)) {
+      modalMessage.textContent = "El nombre debe tener entre 5 y 50 caracteres, y solo puede contener letras y espacios.";
+      modal.classList.remove("hidden");
+      modal.style.display = "block";
+      return;
     }
+    if (!data.descripcionNoticiaProfe || data.descripcionNoticiaProfe.length < 20 || data.descripcionNoticiaProfe.length > 200) {
+      modalMessage.textContent = "La descripción debe tener entre 20 y 200 caracteres.";
+      modal.classList.remove("hidden");
+      modal.style.display = "block";
+      return;
+    }
+
     try {
       // Mostrar el modal con mensaje de "Creando..."
       modalMessage.textContent = "Creando la noticia, por favor espere...";
@@ -201,7 +214,7 @@
         modalMessage.textContent = `Error: ${error.message}`;
       }
     } catch (err) {
-      modalMessage.textContent = "Ocurrió un error al crear La Noticia.";
+      modalMessage.textContent = "Ocurrió un error al crear la noticia.";
     }
   });
 });

@@ -154,55 +154,82 @@
     </div>
 </div>
 <script>
-        document.addEventListener("DOMContentLoaded", () => {
-        const updateButton = document.getElementById("updateButton");
-        const modal = document.getElementById("messageModal");
-        const closeModal = document.getElementById("closeModal");
-        const modalTitle = document.getElementById("modalTitle");
-        const modalBody = document.getElementById("modalBody");
-        const form = document.querySelector("form");
+document.addEventListener("DOMContentLoaded", () => {
+  const updateButton = document.getElementById("updateButton");
+  const modal = document.getElementById("messageModal");
+  const closeModal = document.getElementById("closeModal");
+  const modalTitle = document.getElementById("modalTitle");
+  const modalBody = document.getElementById("modalBody");
+  const form = document.querySelector("form");
 
-        form.addEventListener("submit", async (e) => {
-            e.preventDefault(); // Prevenir recarga de la página
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault(); // Prevenir recarga de la página
 
-            const formData = new FormData(form);
-            const data = {
-                nombreNoticiaProfe: formData.get("nombreNoticiaProfe"),
-                descripcionNoticiaProfe: formData.get("descripcionNoticiaProfe"),
-            };
+    const formData = new FormData(form);
+    const data = {
+      nombreNoticiaProfe: formData.get("nombreNoticiaProfe"),
+      descripcionNoticiaProfe: formData.get("descripcionNoticiaProfe"),
+    };
 
-            try {
-                const response = await fetch(form.action, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(data),
-                });
+    // Validaciones en el cliente
+    if (
+      !data.nombreNoticiaProfe ||
+      data.nombreNoticiaProfe.length < 5 ||
+      data.nombreNoticiaProfe.length > 50 ||
+      !/^[a-zA-Z\s]+$/.test(data.nombreNoticiaProfe)
+    ) {
+      modalTitle.textContent = "Error";
+      modalBody.textContent =
+        "El nombre de la noticia debe tener entre 5 y 50 caracteres y solo puede contener letras y espacios.";
+      modal.style.display = "flex";
+      return;
+    }
 
-                if (response.ok) {
-                    modalTitle.textContent = "Éxito";
-                    modalBody.textContent = "La noticia se actualizó correctamente.";
-                    modal.style.display = "flex";
+    if (
+      !data.descripcionNoticiaProfe ||
+      data.descripcionNoticiaProfe.length < 20 ||
+      data.descripcionNoticiaProfe.length > 200
+    ) {
+      modalTitle.textContent = "Error";
+      modalBody.textContent =
+        "La descripción debe tener entre 20 y 200 caracteres.";
+      modal.style.display = "flex";
+      return;
+    }
 
-                    setTimeout(() => {
-                        window.location.href = "/noticias-profesores";
-                    }, 2000);
-                } else {
-                    const error = await response.json();
-                    modalTitle.textContent = "Error";
-                    modalBody.textContent = error.message || "Ocurrió un problema al actualizar.";
-                    modal.style.display = "flex";
-                }
-            } catch (err) {
-                console.error(err);
-                modalTitle.textContent = "Error";
-                modalBody.textContent = "Hubo un problema con la conexión.";
-                modal.style.display = "flex";
-            }
-        });
+    try {
+      const response = await fetch(form.action, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
 
-        closeModal.addEventListener("click", () => {
-            modal.style.display = "none";
-            window.location.href = "/noticias-profesores";
-        });
-    });
+      if (response.ok) {
+        modalTitle.textContent = "Éxito";
+        modalBody.textContent = "La noticia se actualizó correctamente.";
+        modal.style.display = "flex";
+
+        setTimeout(() => {
+          window.location.href = "/noticias-profesores";
+        }, 2000);
+      } else {
+        const error = await response.json();
+        modalTitle.textContent = "Error";
+        modalBody.textContent =
+          error.message || "Ocurrió un problema al actualizar.";
+        modal.style.display = "flex";
+      }
+    } catch (err) {
+      console.error(err);
+      modalTitle.textContent = "Error";
+      modalBody.textContent = "Hubo un problema con la conexión.";
+      modal.style.display = "flex";
+    }
+  });
+
+  closeModal.addEventListener("click", () => {
+    modal.style.display = "none";
+    window.location.href = "/noticias-profesores";
+  });
+});
 </script>

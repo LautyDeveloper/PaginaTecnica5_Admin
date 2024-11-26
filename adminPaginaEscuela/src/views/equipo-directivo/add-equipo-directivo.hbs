@@ -146,16 +146,42 @@
   });
 
 
-  form.addEventListener("submit", async (e) => {
+    form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    // Crear datos del formulario para enviar
+    // Crear datos del formulario para validar y enviar
     const formData = new FormData(form);
     const data = {
-      Nombre: formData.get("Nombre"),
-      Apellido: formData.get("Apellido"),
-      Cargo: formData.get("Cargo")
+      Nombre: formData.get("Nombre").trim(),
+      Apellido: formData.get("Apellido").trim(),
+      Cargo: formData.get("Cargo").trim(),
+    };
+
+    // Validaciones en el frontend
+    const errors = [];
+    if (data.Nombre.length < 2 || data.Nombre.length > 50) {
+      errors.push("El nombre debe tener entre 2 y 50 caracteres.");
+    } else if (!/^[a-zA-Z\s]+$/.test(data.Nombre)) {
+      errors.push("El nombre solo puede contener letras y espacios.");
     }
+
+    if (data.Apellido.length < 2 || data.Apellido.length > 50) {
+      errors.push("El apellido debe tener entre 2 y 50 caracteres.");
+    } else if (!/^[a-zA-Z\s]+$/.test(data.Apellido)) {
+      errors.push("El apellido solo puede contener letras y espacios.");
+    }
+
+    if (data.Cargo.length < 3 || data.Cargo.length > 100) {
+      errors.push("El cargo debe tener entre 3 y 100 caracteres.");
+    }
+
+    if (errors.length > 0) {
+      modalMessage.textContent = `Errores: ${errors.join(" ")}`;
+      modal.classList.remove("hidden");
+      modal.style.display = "block";
+      return;
+    }
+
     try {
       // Mostrar el modal con mensaje de "Creando..."
       modalMessage.textContent = "Añadiendo el directivo, por favor espere...";
@@ -173,7 +199,7 @@
         modalMessage.textContent = "Directivo añadido exitosamente!";
         setTimeout(() => {
           window.location.href = "/equipo-directivo";
-        }, 4000); // Redirigir después de 2 segundos
+        }, 4000);
       } else {
         const error = await response.json();
         modalMessage.textContent = `Error: ${error.message}`;
@@ -182,6 +208,7 @@
       modalMessage.textContent = "Ocurrió un error al añadir el Directivo";
     }
   });
+
 
 });
 
