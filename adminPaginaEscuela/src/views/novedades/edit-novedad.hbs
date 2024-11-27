@@ -232,8 +232,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Función de validación de novedades
   const validateNovedad = ({ novedad, descripcion, descripcionLarga }) => {
-    if (!novedad || novedad.length > 50) {
-      return "El título no puede superar los 50 caracteres.";
+    if (!novedad || novedad.length > 60) {
+      return "El título no puede superar los 60 caracteres.";
     }
     if (!descripcion || descripcion.length > 70) {
       return "La descripción no puede superar los 70 caracteres.";

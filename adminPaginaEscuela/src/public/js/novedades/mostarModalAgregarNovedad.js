@@ -27,8 +27,8 @@ document
     const descripcionLarga = form.descripcionLarga.value.trim();
 
     // Validaciones en el frontend
-    if (!novedad || novedad.length > 50) {
-      toggleModal("Error", "El título no puede superar los 50 caracteres.");
+    if (!novedad || novedad.length > 60) {
+      toggleModal("Error", "El título no puede superar los 60 caracteres.");
       return;
     }
     if (!descripcion || descripcion.length > 70) {

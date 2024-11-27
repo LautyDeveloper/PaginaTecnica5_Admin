@@ -34,12 +34,9 @@ function validateProyecto(data, file) {
   if (proyectoNombre.length < 5 || proyectoNombre.length > 50) {
     return "El nombre del proyecto debe tener entre 5 y 50 caracteres.";
   }
-  if (!/^[a-zA-Z\s]+$/.test(proyectoNombre)) {
-    return "El nombre del proyecto solo puede contener letras y espacios.";
-  }
 
   // Validación de la descripción
-  if (descripcionProyecto.length < 10 || descripcionProyecto.length > 255) {
+  if (descripcionProyecto.length < 10 || descripcionProyecto.length > 350) {
     return "La descripción debe tener entre 10 y 255 caracteres.";
   }
 

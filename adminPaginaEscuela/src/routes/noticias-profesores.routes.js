@@ -28,8 +28,7 @@ const validateNoticia = ({ nombreNoticiaProfe, descripcionNoticiaProfe }) => {
   if (
     !nombreNoticiaProfe ||
     nombreNoticiaProfe.length < 5 ||
-    nombreNoticiaProfe.length > 50 ||
-    !/^[a-zA-Z\s]+$/.test(nombreNoticiaProfe)
+    nombreNoticiaProfe.length > 50
   ) {
     return "El nombre de la noticia debe tener entre 5 y 50 caracteres y solo puede contener letras y espacios.";
   }

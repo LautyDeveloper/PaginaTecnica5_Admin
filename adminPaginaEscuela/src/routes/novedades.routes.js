@@ -14,8 +14,8 @@ const validateNovedad = ({ novedad, descripcion, descripcionLarga }) => {
   const errors = [];
 
   // Validación del título de la novedad
-  if (!novedad || novedad.length > 50) {
-    errors.push("El título no puede superar los 50 caracteres.");
+  if (!novedad || novedad.length > 60) {
+    errors.push("El título no puede superar los 60 caracteres.");
   }
 
   // Validación de la descripción breve
