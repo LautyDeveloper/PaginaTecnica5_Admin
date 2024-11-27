@@ -16,8 +16,14 @@
     margin: 15% auto;
     padding: 20px;
     border: 1px solid #888;
-    width: 80%;
-    max-width: 400px;
+        border-radius: 20px;
+
+    width: 400px;
+    height: 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
     text-align: center;
   }
 
@@ -116,14 +122,14 @@
     };
 
     // Validaciones locales
-    if (!data.nombreNoticiaProfe || data.nombreNoticiaProfe.length < 5 || data.nombreNoticiaProfe.length > 50 || !/^[a-zA-Z\s]+$/.test(data.nombreNoticiaProfe)) {
+    if (!data.nombreNoticiaProfe || data.nombreNoticiaProfe.length < 5 || data.nombreNoticiaProfe.length > 50) {
       modalMessage.textContent = "El nombre debe tener entre 5 y 50 caracteres, y solo puede contener letras y espacios.";
       modal.classList.remove("hidden");
       modal.style.display = "block";
       return;
     }
-    if (!data.descripcionNoticiaProfe || data.descripcionNoticiaProfe.length < 20 || data.descripcionNoticiaProfe.length > 200) {
-      modalMessage.textContent = "La descripción debe tener entre 20 y 200 caracteres.";
+    if (!data.descripcionNoticiaProfe || data.descripcionNoticiaProfe.length < 20 || data.descripcionNoticiaProfe.length > 400) {
+      modalMessage.textContent = "La descripción debe tener entre 20 y 400 caracteres.";
       modal.classList.remove("hidden");
       modal.style.display = "block";
       return;

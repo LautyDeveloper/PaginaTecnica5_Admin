@@ -52,7 +52,9 @@ router.post(
       }
 
       // Si se subió una imagen, se guarda la URL correspondiente
-      const imagenUrl = req.file ? `/uploads/${req.file.filename}` : null;
+      const imagenUrl = req.file
+        ? `http://localhost:3005/uploads/${req.file.filename}`
+        : null;
 
       // Crear un nuevo objeto con la novedad
       const newNovedad = { novedad, descripcion, descripcionLarga, imagenUrl };
@@ -116,7 +118,7 @@ router.post(
 
       // Si hay una nueva imagen, la usamos; si no, mantenemos la imagen actual
       const imagenUrl = req.file
-        ? `/uploads/${req.file.filename}`
+        ? `http://localhost:3005/uploads/${req.file.filename}`
         : imagenActual;
 
       // Objeto con los datos actualizados

@@ -33,7 +33,7 @@ h3 {
   padding-bottom: 20px;
 }
 
-.container .arriba h3{
+.container .arriba h3 {
   font-size: 30px;
 }
 
@@ -44,6 +44,7 @@ h3 {
   padding: 30px;
   border-radius: 30px;
   gap: 10px;
+  margin-bottom: 30px;
 }
 
 .novedad-container .novedad-celda {
@@ -54,7 +55,7 @@ h3 {
   color: #fff;
 }
 
-.novedad-container .celda-principal{
+.novedad-container .celda-principal {
   background-color: #09105a;
   padding: 20px;
   font-size: 1.2rem;
@@ -65,8 +66,8 @@ h3 {
   display: none;
 }
 
-.novedad-container .celda-acciones-principal{
-    display: flex;
+.novedad-container .celda-acciones-principal {
+  display: flex;
 }
 
 .novedad-container .celda-acciones {
@@ -79,28 +80,28 @@ h3 {
   gap: 10px;
 }
 
-.novedad-container .celda-acciones a{ 
-    display: grid;
-    place-items: center;
-    text-align: center;
-    width: 50px;
-    height: 50px;
-    border-radius: 30px;
+.novedad-container .celda-acciones a {
+  display: grid;
+  place-items: center;
+  text-align: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 30px;
 }
 
-.novedad-container .celda-acciones .edit-novedad-a{
+.novedad-container .celda-acciones .edit-novedad-a {
   background-color: #1859dc;
 }
 
-.novedad-container .celda-acciones .edit-novedad-a:hover{
+.novedad-container .celda-acciones .edit-novedad-a:hover {
   background-color: #134ab8;
 }
 
-.novedad-container .celda-acciones .delete-novedad-a{
+.novedad-container .celda-acciones .delete-novedad-a {
   background-color: #dc1b18;
 }
 
-.novedad-container .celda-acciones .delete-novedad-a:hover{
+.novedad-container .celda-acciones .delete-novedad-a:hover {
   background-color: #86100e;
 }
 

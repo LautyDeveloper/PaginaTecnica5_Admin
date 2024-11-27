@@ -165,12 +165,16 @@ nav div h1{
         width: 80%;
         max-width: 400px;
         text-align: center;
-        border-radius: 8px;
+        border-radius: 20px;
         display: flex;
         flex-direction: column;
         justify-content: space-evenly;
         align-items: center;
         height: 200px;
+    }
+    .modal-content h3{
+      margin: 0;
+      padding: 0;
     }
     .modal-footer button {
         padding: 8px 16px;
@@ -252,8 +256,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (
       !data.nombreNoticiaProfe ||
       data.nombreNoticiaProfe.length < 5 ||
-      data.nombreNoticiaProfe.length > 50 ||
-      !/^[a-zA-Z\s]+$/.test(data.nombreNoticiaProfe)
+      data.nombreNoticiaProfe.length > 50
     ) {
       modalTitle.textContent = "Error";
       modalBody.textContent =
@@ -265,11 +268,11 @@ document.addEventListener("DOMContentLoaded", () => {
     if (
       !data.descripcionNoticiaProfe ||
       data.descripcionNoticiaProfe.length < 20 ||
-      data.descripcionNoticiaProfe.length > 200
+      data.descripcionNoticiaProfe.length > 400
     ) {
       modalTitle.textContent = "Error";
       modalBody.textContent =
-        "La descripción debe tener entre 20 y 200 caracteres.";
+        "La descripción debe tener entre 20 y 400 caracteres.";
       modal.style.display = "flex";
       return;
     }

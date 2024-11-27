@@ -37,9 +37,9 @@ const validateNoticia = ({ nombreNoticiaProfe, descripcionNoticiaProfe }) => {
   if (
     !descripcionNoticiaProfe ||
     descripcionNoticiaProfe.length < 20 ||
-    descripcionNoticiaProfe.length > 200
+    descripcionNoticiaProfe.length > 400
   ) {
-    return "La descripción debe tener entre 20 y 200 caracteres.";
+    return "La descripción debe tener entre 20 y 400 caracteres.";
   }
 
   // Si todo es válido, no hay error
